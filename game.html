@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Guess the number</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        .cont {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+        .instruction{
+            margin-top: 20px;
+        }
+
+        .value {
+            margin-top: 20px;
+        }
+
+        input {
+            padding: 5px 20px 5px 10px;
+        }
+
+        #submit {
+            font-size: 1rem;
+            font-weight: bold;
+            cursor: pointer;
+            padding: 4px 2px 4px 2px;
+            position: relative;
+            top: 1.09px;
+            right: px;
+            background-color: #212121;
+            color: white;
+        }
+
+        .clear {
+            margin-top: 20px;
+        }
+
+        #reset {
+            margin-top: 20px;
+            font-size: 1rem;
+            font-weight: bold;
+            cursor: pointer;
+            padding: 3.5px 10px;
+            border-radius: 5px;
+            background-color: #212121;
+            color: white;
+        }
+
+        p {
+            display: block;
+        }
+
+        .dis {
+            background-color: #ccc;
+            color: #666;
+            cursor: not-allowed;
+        }
+        #message{
+            color: red;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="cont">
+        <div class="instruction">
+            <h2>Guess the number(1-100)</h2>
+        </div>
+        <div class="value">
+            <input type="number" placeholder="Enter the number" id="userGuess">
+            <button id="submit" onclick="checkGuess()">Submit</button>
+        </div>
+        <div class="clear">
+            <p id="message"></p>
+            <p id="attamps">Total Attemps: 10</p>
+            <p id="att">Previous Guess:</p>
+
+        </div>
+        <button id="reset" onclick="resetgame()">Reset</button>
+    </div>
+</body>
+<script>
+
+    const secretnumber = Math.floor(Math.random() * 100) + 1;
+    let attemps = 10
+    function checkGuess() {
+        let userguess = parseInt(document.getElementById('userGuess').value);
+
+        let btn = document.getElementById(`submit`)
+        attemps--;
+        let att = document.getElementById(`attamps`).innerText = `Attempts left: ${attemps} `
+        if (userguess === secretnumber) {
+            document.getElementById('message').innerHTML = alert(`Congratulations! You guessed the correct number in ${attemps} attempts.`);
+            btn.style.display = `none`
+            document.getElementById('message').innerHTML = 'You won';
+            document.getElementById(`reset`).innerText = `Play Again`
+        } else if (userguess <= 0 || userguess >= 101) {
+            document.getElementById('message').innerHTML = 'Enter a number between 1 to 100';
+        }  else if (userguess < secretnumber) {
+            document.getElementById('message').innerHTML = 'low. Try again.';
+            document.getElementById(`att`).innerHTML += ` ${userguess},`
+        } else if(userguess > secretnumber){
+            document.getElementById('message').innerHTML = 'high. Try again.';
+            document.getElementById(`att`).innerHTML += ` ${userguess},`
+        } else if (userguess != Number) {
+            document.getElementById('message').innerHTML = 'Enter a number';
+        } if (attemps == 0 & userguess != secretnumber) {
+            alert(`You lose `)
+            document.getElementById('message').innerHTML = `You lose, Answer is ${secretnumber} `;
+            document.getElementById(`reset`).innerText = `Play Again`
+            btn.style.display = `none`
+        } else if (attemps == 9) {
+            document.getElementById(`attamps`).style.color = `green`
+        }
+         else if (attemps == 5) {
+            document.getElementById(`attamps`).style.color = `red`
+        }
+         else if (attemps == 1 & userguess != secretnumber) {
+            document.getElementById(`attamps`).innerText = ` Last Attempt `
+        }
+    }
+    function resetgame() {
+        location.reload()
+    }
+</script>
+
+</html>
